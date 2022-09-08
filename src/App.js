@@ -1,15 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
-import Cards from './componets/Cards';
+import {React,Component} from 'react';
+import Cardlist from './componets/Cardlist';
+import { robots } from './componets/robots';
+import Searchbox from './componets/Searchbox';
 
-function App() {
-  return (
+
+class App extends Component() {
+  constructor(){
+    super()
+  this.state ={ 
+    robots: robots,
+    searchtext: ''
+  }
+}
+
+onSearch = (event) =>{
+  this.setState({searchtext: event.target.value})
+  }
+
+  render(){
+    const filterrobot = this.state.robots.filter(robot=>{
+      return robot.name.toLowerCase().includes(this.state.searchtext.toLowerCase());
+    });
+      return (
     <div className="App">
-      <Cards/>
-      <Cards/>
-      <Cards/>
+      <h1>
+        robots
+      </h1>
+      <Searchbox onSearch = { this.onSearch}/>
+      <Cardlist robots={filterrobot}/>
     </div>
   );
 }
-
+}
 export default App;
