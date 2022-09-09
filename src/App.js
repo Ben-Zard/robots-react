@@ -1,7 +1,7 @@
 import './App.css';
 import {React,Component} from 'react';
 import Cardlist from './componets/Cardlist';
-import { robots } from './componets/robots';
+import Scroll from './componets/Scroll';
 import Searchbox from './componets/Searchbox';
 
 
@@ -9,9 +9,15 @@ class App extends Component() {
   constructor(){
     super()
   this.state ={ 
-    robots: robots,
+    robots: [],
     searchtext: ''
   }
+}
+
+componentDidMount(){
+  fetch('https://jsonplaceholder.typicode.com/users')
+  .then(response=> response.json())
+  .then(users => this.setState({robots: users}));
 }
 
 onSearch = (event) =>{
@@ -28,7 +34,9 @@ onSearch = (event) =>{
         robots
       </h1>
       <Searchbox onSearch = { this.onSearch}/>
+      <Scroll>
       <Cardlist robots={filterrobot}/>
+      </Scroll>
     </div>
   );
 }
